@@ -15,18 +15,28 @@ En caso de no haberse hecho antes en la máquina en la que se vaya a realizar, i
 ```
 $ deb http://apt.anybox.fr/openerp common main
 ```
-- Si se quiere añadir la firma. Esta a veces tarda mucho tiempo o incluso da time out. Es opcional meterlo
+- Para firmar el repositorio:
 ```
-$ sudo apt-key adv --keyserver hkp://subkeys.pgp.net --recv-keys 0xE38CEB07
+$ wget http://apt.anybox.fr/openerp/pool/main/a/anybox-keyring/anybox-keyring_0.2_all.deb
+$ sudo dpkg -i anybox-keyring_0.2_all.deb
 ```
 - Instalar dependencias python3 y otros paquetes adicionales
 ```
-$ sudo apt install build-essential python3-dev libxslt-dev libzip-dev libldap2-dev libsasl2-dev
+$ sudo apt install build-essential python3-dev libxslt-dev libzip-dev libldap2-dev libsasl2-dev python3-pip
 ```
 - Actualizar e instalar
 ```
 $ sudo apt-get update
 $ sudo apt-get install openerp-server-system-build-deps
+```
+- Instalar paquetes externos requeridos
+```
+$ sudo apt-get install node-clean-css -y
+$ sudo apt-get install node-less -y
+$ wget https://downloads.wkhtmltopdf.org/0.12/0.12.1/wkhtmltox-0.12.1_linux-trusty-amd64.deb
+$ sudo dpkg -i wkhtmltox-0.12.1_linux-trusty-amd64.deb
+$ sudo ln -s /usr/local/bin/wkhtmltopdf /usr/bin
+$ sudo ln -s /usr/local/bin/wkhtmltoimage /usr/bin
 ```
 - Para poder compilar e instalar postgres
 ```
@@ -34,7 +44,7 @@ $ sudo apt-get install libreadline-dev
 ```
 - Crear un virtualenv dentro de la carpeta del respositorio. Esto podría ser opcional, obligatorio para desarrollo o servidor de pruebas, tal vez podríamos no hacerlo para un despliegue en producción. Si no está instalado, instalar el paquete de virtualenv. Es necesario tener la versión que se instala con easy_install o con pip, desinstalar el paquete python-virtualenv si fuera necesario e instalarlo con easy_install
 ```
-$ sudo easy_install virtualenv
+$ sudo pip3 install virtualenv
 $ virtualenv -p python3.5 sandbox
 ```
 - Ahora procedemos a ejecutar el buildout en nuestro entorno virtual
@@ -57,11 +67,7 @@ $ bin/supervisord
 $ bin/buildout -c [archivo_buildout]
 ```
 - Conectarse al supervisor con localhost:9002
-- Si fuera necesario hacer update all, se puede parar desde el supervisor y en la consola hacer:
-```
-$ cd bin
-$ ./upgrade_odoo
-```
+
 - odoo se lanza en el puerto 9069 (se pude configurar en otro)
 
 ## Securizar el acceso al supervisor
