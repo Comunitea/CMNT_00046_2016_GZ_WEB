@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--Customize checkout for skip unnecessary steps-->
+    <template id="wizard_checkout_custom" inherit_id="website_sale.wizard_checkout">
+        <!--Hide bill step. Just confirm order because customers pay on store.-->
+        <!--<xpath expr="//li[@id='step20']" position="replace"/>-->
+
+        <!--Hide payment step. Just confirm order because customers pay on store.-->
+        <xpath expr="//li[@id='step40']" position="replace"/>
+    </template>
+
+    <!--Hide payment information on order confirmation-->
+    <template id="confirmation_custom" inherit_id="website_sale.confirmation">
+        <xpath expr="//h3[@class='text-left']" position="replace"/>
+        <xpath expr="//table[@class='table']" position="replace"/>
+    </template>
+
+    <!--Hide payment confirmation status on order confirmation-->
+    <template id="confirmation_status_custom" inherit_id="website_sale.payment_confirmation_status">
+        <xpath expr="//div[@class='oe_website_sale_tx_status']" position="replace"/>
+    </template>
+
+    <!--Hide bill to information on order confirmation-->
+    <template id="website_sale.bill_to">
+        <div class="panel panel-info break-word">
+            <div class="panel-heading">Ship To:</div>
+            <div class="panel-body">
+                <div class='o_div_text_overflow' t-field="order.partner_shipping_id" t-options="{'widget': 'contact','fields': ['address', 'name', 'phone']}" />
+            </div>
+        </div>
+    </template>
+
+    <!--Hide edit address on billing step-->
+    <template id="checkout_custom" inherit_id="website_sale.checkout">
+        <xpath expr="//h2[@class='page-header mt8']/../.." position="replace"/>
+        <xpath expr="//div[@class='col-sm-12 col-md-12 one_kanban']" position="replace"/>
+    </template>
+</odoo>

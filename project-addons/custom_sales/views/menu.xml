@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--Access shop only portal users-->
+    <template id="menu_custom" inherit_id="website.layout">
+        <xpath expr="//t[@t-foreach='website.menu_id.child_id']" position="replace">
+            <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                <t t-if="submenu.name != 'Tienda' or (submenu.name == 'Tienda' and not user_id._is_public())">
+                    <t t-call="website.submenu"/>
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>
